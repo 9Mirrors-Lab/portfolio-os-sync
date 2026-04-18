@@ -14,8 +14,11 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    env:
+      # Use Node 24 for JavaScript actions (avoids Node 20 deprecation on runners).
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Sync all sources
         env:

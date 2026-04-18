@@ -31,6 +31,22 @@ export GH_TOKEN=ghp_...   # or: gh auth login
 ./scripts/sync-all.sh
 ```
 
+## Troubleshooting
+
+### `Resource not accessible by personal access token` (workflow fails after printing “Next Action →”)
+
+The roadmap query worked; **updating Portfolio OS** did not. The PAT can read Projects but **cannot write** Project fields.
+
+**Fine-grained PAT:** When you create or edit the token, open **Account permissions** (not only Repository access) and set **Projects** to **Read and write**. **Read only** produces exactly this error.
+
+**Classic PAT:** Enable the **`project`** scope (full control of user projects).
+
+Then replace the `PORTFOLIO_SYNC_TOKEN` secret in this repo and re-run the workflow.
+
+### Node.js / `actions/checkout` deprecation warnings
+
+The workflow pins **`actions/checkout@v6`** and sets **`FORCE_JAVASCRIPT_ACTIONS_TO_NODE24`** so the checkout action runs on Node 24. If GitHub still shows a warning, bump `@v6` to the latest release tag from [actions/checkout](https://github.com/actions/checkout/releases).
+
 ## Related repos
 
 - Application repos (for example **Notebook-optimizer**) do **not** need `PORTFOLIO_SYNC_TOKEN` or a sync workflow; only this repo does.

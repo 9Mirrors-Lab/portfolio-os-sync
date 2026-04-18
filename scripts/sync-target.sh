@@ -120,13 +120,17 @@ fi
 echo "[${SOURCE_ID:-sync-target}] Next Action →"
 echo "$BODY"
 
-gh api graphql -f query='
+if ! gh api graphql -f query='
 mutation($pid: ID!, $iid: ID!, $fid: ID!, $txt: String!) {
   updateProjectV2ItemFieldValue(
     input: { projectId: $pid, itemId: $iid, fieldId: $fid, value: { text: $txt } }
   ) {
     projectV2Item { id }
   }
-}' -f pid="$PORTFOLIO_PROJECT_ID" -f iid="$PORTFOLIO_ITEM_ID" -f fid="$NEXT_ACTION_FIELD_ID" -f txt="$BODY" >/dev/null
+}' -f pid="$PORTFOLIO_PROJECT_ID" -f iid="$PORTFOLIO_ITEM_ID" -f fid="$NEXT_ACTION_FIELD_ID" -f txt="$BODY" >/dev/null; then
+  echo "::error::Could not write Portfolio OS (GraphQL mutation failed). If gh printed \"Resource not accessible by personal access token\", your PAT can read Projects but not update them." >&2
+  echo "::error::Fix: create a new token. Fine-grained PAT → Account permissions → Projects → Read and write (Read only is not enough). Or classic PAT with the \"project\" scope." >&2
+  exit 1
+fi
 
 echo "[${SOURCE_ID:-sync-target}] Done."
