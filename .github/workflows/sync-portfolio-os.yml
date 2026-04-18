@@ -1,0 +1,30 @@
+# Central sync: update Portfolio OS cards from per-repo roadmap projects.
+# Secret PORTFOLIO_SYNC_TOKEN only in THIS repository.
+
+name: Sync Portfolio OS
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 12 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync all sources
+        env:
+          GH_TOKEN: ${{ secrets.PORTFOLIO_SYNC_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "::error::Add repository secret PORTFOLIO_SYNC_TOKEN (PAT with Account → Projects → Read and write, or classic scope project)."
+            exit 1
+          fi
+          chmod +x scripts/sync-all.sh scripts/sync-target.sh
+          ./scripts/sync-all.sh

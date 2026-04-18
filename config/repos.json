@@ -1,0 +1,19 @@
+{
+  "portfolio": {
+    "owner_login": "9Mirrors-Lab",
+    "project_number": 4,
+    "project_id": "PVT_kwHODBMHxs4BU9av",
+    "next_action_field_id": "PVTF_lAHODBMHxs4BU9avzhN27-M"
+  },
+  "sources": [
+    {
+      "id": "notebook-optimizer",
+      "enabled": true,
+      "roadmap": {
+        "owner_login": "9Mirrors-Lab",
+        "project_number": 3
+      },
+      "portfolio_item_id": "PVTI_lAHODBMHxs4BU9avzgqTQ34"
+    }
+  ]
+}
