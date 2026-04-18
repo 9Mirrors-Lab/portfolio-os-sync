@@ -11,7 +11,7 @@ One GitHub Actions workflow and one PAT update **Portfolio OS** from several **p
 ## Setup
 
 1. Create a new empty GitHub repository (for example `9Mirrors-Lab/portfolio-os-sync`) and push this repo.
-2. In that repo: **Settings → Secrets and variables → Actions → New repository secret** → `PORTFOLIO_SYNC_TOKEN`.
+2. In that repo: **Settings → Secrets and variables → Actions → New repository secret** → `PORTFOLIO_SYNC_TOKEN`. If you already added this secret on another repo (for example Notebook-optimizer), **remove it there** and add it **only** here so one PAT stays in one place.
 3. Edit `config/repos.json`: set `portfolio.*` ids from your Portfolio OS project (GraphQL or browser devtools), and add one `sources[]` entry per repo roadmap + Portfolio card mapping.
 4. Run **Actions → Sync Portfolio OS → Run workflow**, or wait for the daily schedule.
 
