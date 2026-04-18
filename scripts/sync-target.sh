@@ -58,7 +58,13 @@ TITLES_STATUSES="$(echo "$RESP" | jq -r '
   | (
       ($n | map(select(.field != null and .field.name == "Status") | .name) | first // "")
     ) as $status
-  | select($title != "" and ($status == "Next Up" or $status == "In Progress"))
+  | select(
+      $title != ""
+      and (
+        $status == "Next Up" or $status == "Next up"
+        or $status == "In Progress" or $status == "In progress"
+      )
+    )
   | "\($status)\t\($title)"
 ')"
 
@@ -69,12 +75,12 @@ MAX_PER_BUCKET=8
 while IFS=$'\t' read -r status title; do
   [[ -z "${status:-}" ]] && continue
   case "$status" in
-    "Next Up")
+    "Next Up"|"Next up")
       if ((${#NEXT_UP_LIST[@]} < MAX_PER_BUCKET)); then
         NEXT_UP_LIST+=("$title")
       fi
       ;;
-    "In Progress")
+    "In Progress"|"In progress")
       if ((${#IN_PROGRESS_LIST[@]} < MAX_PER_BUCKET)); then
         IN_PROGRESS_LIST+=("$title")
       fi
